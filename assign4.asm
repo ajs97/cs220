@@ -67,7 +67,12 @@ main:
     li.d $f0 , 100.0
     c.lt.d  $f0 , $f12
     bc1t L2               #go to L2 if q>100
+
+      li.d $f0 , 0.1
+      c.lt.d  $f0 , $f12
+      bc1t L              #go to L if 100>q>0.1
       li.d $f4 , 100000000.00
+
       mul.d $f12 , $f12 , $f4  #adding bias of 8
       cvt.w.d $f0 , $f12
       mfc1 $a0 , $f0        #store floor(q) in $a0
@@ -76,6 +81,16 @@ main:
       sub $v0 , $v0 , 8    #removing bias of 8
       j END
 
+      L:
+      li.d $f4 , 10000.00
+
+      mul.d $f12 , $f12 , $f4  #adding bias of 4
+      cvt.w.d $f0 , $f12
+      mfc1 $a0 , $f0        #store floor(q) in $a0
+
+      jal func              #$a0 is passed as an argument
+      sub $v0 , $v0 , 4    #removing bias of 4
+      j END
     L2:
       cvt.w.d $f0 , $f12
       mfc1 $a0 , $f0        #store floor(q) in $a0
@@ -91,10 +106,11 @@ main:
 
         L3:
           la $a0 , plus
+          add $t0 , $v0 , $zero
           li $v0 , 4              # print +
           syscall
 
-          add $a0 , $v0 , $zero
+          add $a0 , $t0 , $zero
           li $v0 , 1
           syscall
 
@@ -132,7 +148,13 @@ loop:
 
   div $t2 , $t2 , 100
   div $a0 , $s0 , $t2
-  rem $a0 , $a0 , 100
+  rem $a1 , $a0 , 100
+  bge $a1 , 10 , label
+  li $a0 , 0
+  li $v0 , 1
+  syscall
+  label:
+  add $a0 , $a1 , $zero
   li $v0 , 1
   syscall               # print two digits after decimal place
 
