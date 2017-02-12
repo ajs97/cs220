@@ -17,7 +17,9 @@ main:
   jal readelements
   li $t0, 0
   jal print
-  jal BubbleSort
+  div $a0, $s0, 4
+  jal sort
+  li $t0, 0
   jal print
 
 
@@ -37,6 +39,7 @@ done:
 
 
 print:
+
   beq $t0, $s0, done
   lw $a0, array($t0)
   li $v0, 1
@@ -45,30 +48,43 @@ print:
   b print
 
 
-BubbleSort:
-  li $t0, 8
+.globl sort
+.ent sort
+  sort:
+  add $s0, $a0, $zero
+  li $t0, 0
   loop1:
     beq $t0, $s0, done
-    li $t1 4
-    mul $t4, $t0, 4
-    sub $s1, $s0, $t4     #check tihs line trying to do $s1= $s0-$t0*4
+    li $t1, 0
+
     loop2:
-      beq $t1, $s1, exit
-      sub $t2, $t1, 4
+      beq $t1, $s0, exit
+      mul $t2, $t1, 4
+      add $t3, $t2, 4
       lw $t5, array($t2)
-      lw $t6, array($t1)
-      bgt $t5, $t6, swap
+      lw $t6, array($t3)
+      bgt $t6, $t5, call
       add $t1, $t1, 4
+      j loop2
+      call:
+      la $a0, array($t2)
+      jal swap
+      addi $t1, $t1, 1
       j loop2
 
     exit:
-      addi $t0, $t0, 4
+      addi $t0, $t0, 1
       j loop1
 
-      swap:
-        lw $t5, array($t2)
-        lw $t6, array($t1)
-        sw $t5, array($t1)
-        sw $t6, array($t2)
-        add $t1, $t1, 4
-        j loop2
+      jr $ra
+.end sort
+
+.globl swap
+.ent swap
+  swap:
+        lw $t0, ($a0)
+        add $a1, $a0, 4
+        sw ($a1), ($a0)
+        sw $t0, ($a1)
+        jr $ra
+.end swap
