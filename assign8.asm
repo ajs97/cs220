@@ -19,7 +19,7 @@ main:
   la $a0, FirstArray                    #load the base address of 1st array
   la $a1, SecondArray                   #""
   la $a2, ResultArray                   #""
-  lw $t0, rowsize1                      #row size of 1st array
+  lw $t0, rowsize1                      #row size of 1st array ljsh
   addi $t0, $t0, -1
   lw $t1, rowsize2                      #""
   addi $t1, $t1, -1
