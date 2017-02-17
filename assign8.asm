@@ -1,5 +1,8 @@
 .data
 
+Newline:     .asciiz   "\n"
+Space:       .asciiz   "\t"
+
 nrows1:   .word 4
 ncols1:   .word 4
 
@@ -16,9 +19,6 @@ SecondArray:  .double 1.0,3.0
               .double 8.0,9.0
               .double 10.0,11.0
 ResultArray: .double  0.0
-
-Newline:     .asciiz   "\n"
-Space:       .asciiz   "\t"
 
 DATASIZE = 8
 
