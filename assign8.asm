@@ -1,19 +1,7 @@
 .data
-<<<<<<< HEAD
-rowsize1:   .word 4
-rowsize2:   .word 2
-FirstArray: .double 1.0,1.0,1.0,1.0
-            .double 1.0,1.0,1.0,1.0
-            .double 1.0,1.0,1.0,1.0
-            .double 1.0,1.0,1.0,1.0
-SecondArray:  .double 1.0,1.0
-              .double 1.0,1.0
-              .double 1.0,1.0
-              .double 1.0,1.0
-=======
 
 Newline:     .asciiz   "\n"
-Space:       .asciiz   "\t"
+Space:       .asciiz   " "
 
 nrows1:   .word 4
 ncols1:   .word 4
@@ -30,7 +18,6 @@ SecondArray:  .double 1.0,3.0
               .double 4.0,6.0
               .double 8.0,9.0
               .double 10.0,11.0
->>>>>>> 0fb51202b1c312c756e2741e5124a4fd7f4382aa
 ResultArray: .double  0.0
 
 DATASIZE = 8
@@ -102,13 +89,6 @@ main:
           l.d $f12, ($s2)
           syscall
 
-<<<<<<< HEAD
-    li $v0, 3
-    syscall
-    addi $t0 , $t0 ,1
-    b print
-    exit:
-=======
           move $a0, $s3         # print space
           li $v0, 4
           syscall
@@ -124,7 +104,6 @@ main:
     add $t4, $t4, 1
     j L1
     esc1:
->>>>>>> 0fb51202b1c312c756e2741e5124a4fd7f4382aa
 
 
   li $v0, 10
