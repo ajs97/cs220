@@ -1,14 +1,14 @@
 .data
 rowsize1:   .word 4
 rowsize2:   .word 2
-FirstArray: .double 1.0,2.0,3.0,4.0
-            .double 6.0,7.0,8.0,9.0
-            .double 11.0,12.0,12.0,4.0
-            .double 15.0,16.0,17.0,18.0
-SecondArray:  .double 1.0,3.0
-              .double 4.0,6.0
-              .double 8.0,9.0
-              .double 10.0,11.0
+FirstArray: .double 1.0,1.0,1.0,1.0
+            .double 1.0,1.0,1.0,1.0
+            .double 1.0,1.0,1.0,1.0
+            .double 1.0,1.0,1.0,1.0
+SecondArray:  .double 1.0,1.0
+              .double 1.0,1.0
+              .double 1.0,1.0
+              .double 1.0,1.0
 ResultArray: .double  0.0
 
 DATASIZE = 8
@@ -76,7 +76,7 @@ main:
 
     li $v0, 3
     syscall
-
+    addi $t0 , $t0 ,1
     b print
     exit:
 

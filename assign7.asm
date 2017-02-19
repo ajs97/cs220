@@ -1,5 +1,8 @@
+## 0 based indexing is used
+## -1 is returned if key not found
+
 .data
-    array: .word 1, 3, 5, 5 , 5, 45, 47, 47, 123, 1234  #array
+    array: .word 1, 3 , 5 , 5 , 5, 45 , 47  ,47 , 123 , 1234  #array
 
 .text
 
@@ -19,6 +22,7 @@ main:
     jal BS                          # call BS($a0 , $a1 , $a2)
 
     move $a0 , $v0                  # print return value of BS
+    addi $a0 , $a0 , -1
     li $v0 , 1
     syscall
 
@@ -28,7 +32,7 @@ main:
 
 .globl BS
 .ent BS
-BS:                                 # BS function which we will call recursively : BS(array start address , length of array , key)
+BS:                                 # BS function which we will call recursively : BS(array start address , length of array , key   )
     beqz $a1 , L0                   # if array is empty
     li $t0 , 1
     beq $a1 , $t0 , L1              # if length==1
@@ -44,11 +48,10 @@ BS:                                 # BS function which we will call recursively
     addi $sp , $sp , -8             #else
     sw $s0 , ($sp)
     sw $ra , 4($sp)
+    move $a1 , $s0                  # $a1 = $s0
     bne $s1 , $a2 , NEQ             # if key != $s1
-    addi $t0 , $s0 , 1              # $a1 = $s0 + 1 (taking the $s0 th element)
-    move $a1 , $t0
-    NEQ:
-    move $a1 , $s0                  # $a1 = $s0 (not taking the $s0 th element)
+    add $a1 , $a1 , 1
+    NEQ:                            # not taking the $s0 th element
     jal BS                          # call BS( $a0 , $a1 , key )
     lw $s0 , ($sp)
     lw $ra , 4($sp)
